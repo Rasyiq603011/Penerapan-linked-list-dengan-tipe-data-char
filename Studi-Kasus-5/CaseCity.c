@@ -25,18 +25,18 @@ int AddCity(CityData* A, int *index, int maxIndex, char* cityName) {
     for (i = 0; i < *index; i++) {
         if (A[i].kt != Nil && strcmp(A[i].kt, cityName) == 0) {
             return -2;
-        }
+        } // City exits indicators
     }
     
     // Add the new city
-    A[*index].kt = strdup(cityName); // Ganti malloc+strcpy dengan strdup
+    A[*index].kt = strdup(cityName); 
     if (A[*index].kt != Nil) {
         A[*index].p = NULL;
         (*index)++;
         return *index - 1;  // Return the index of the new city
     }
     
-    return -3;  // Memory allocation failed
+    return -3;  // Memory allocation failed indicator
 }
 
 // Find a city in the array
@@ -47,7 +47,7 @@ int FindCity(CityData* A, int size, char* cityName) {
             return i;
         }
     }
-    return -1;  // City not found
+    return -1;  // City not found indicator
 }
 
 // Add a name to a specific city
