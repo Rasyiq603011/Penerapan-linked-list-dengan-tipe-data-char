@@ -1,7 +1,8 @@
-/* File name   : linked.c
-   Made by      : Muhammad Nabil Syauqi Rasyiq
-   Date         : 30 March 2025
-   Description  : Implementation of linked list supporting both int and char* types
+/* 
+	File name	: linked.c
+  	Made by		: Muhammad Nabil Syauqi Rasyiq
+   	Date		: 30 March 2025
+  	Description	: Implementation of linked list supporting both int and char* types
 */
 
 #include "linked.h"
@@ -66,6 +67,13 @@ void DeAlokasiCharS(address P) {
     }
 }
 
+void DeAlokasi(address P) {
+    if (P != Nil) {
+        next(P) = Nil; // Ensure next pointer is NULL before deallocation
+        free(P);
+    }
+}
+
 /*=======================================================*/
 /*================= INSERTION FUNCTIONS =================*/
 /*=======================================================*/
@@ -111,28 +119,28 @@ void InsertBefore(address *pAft, address *p, address PNew) {
 void InsertFVInt(address *P, int info) {
     address newNode = AlokasiInt(info);
     if (newNode != Nil) {
-        InsertFirst(P, newNode);
+        InsertFirst(&(*P), newNode);
     }
 }
 
 void InsertFVCharS(address *P, string info) {
     address newNode = AlokasiCharS(info);
     if (newNode != Nil) {
-        InsertFirst(P, newNode);
+        InsertFirst(&(*P), newNode);
     }
 }
 
 void InsertLVInt(address *P, int info) {
     address newNode = AlokasiInt(info);
     if (newNode != Nil) {
-        InsertLast(P, newNode);
+        InsertLast(&(*P), newNode);
     }
 }
 
 void InsertLVCharS(address *P, string info) {
     address newNode = AlokasiCharS(info);
     if (newNode != Nil) {
-        InsertLast(P, newNode);
+        InsertLast(&(*P), newNode);
     }
 }
 
@@ -371,7 +379,7 @@ void printInfoCharS(List L) {
             printf(", %s", infoStr(P));
             P = next(P);
         }
-        printf("\n");
+        printf("\n\n");
     }
 }
 

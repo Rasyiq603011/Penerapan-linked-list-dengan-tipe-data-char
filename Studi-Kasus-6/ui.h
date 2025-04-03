@@ -1,42 +1,57 @@
-/*	File name 	: ui.h
+/*	
+	File name 	: ui.h
 	Made by		: Muhammad Nabil Syauqi Rasyiq
-	Date		: 27 March 2025
+	Date		: 1 April 2025
+	Description : Header file for handle ui study case
 */
 
 #ifndef UI_H
 #define UI_H
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <windows.h>
 #include <conio.h> // Untuk getch()
 
-// Constants for input sizes
-#define MAX_NAME_LENGTH 1024
-#define MAX_CITY_LENGTH 1024
-
 // Main menu functions
-void displayMainMenu();
-int getMenuChoice();
-void displayExitMessage();
-void displayInvalidChoiceMessage();
+void displayMainMenu(); // Menampilkan main menu
+
+int getMenuChoice(); // mengambil input pilihan menu
+
+void displayExitMessage(); // menampilkan Pesan sebelum keluar program
+
+void displayInvalidChoiceMessage(); // menampilkan pesan saat input yang dimasukan salah
 
 // Input functions
-void readCityName(char* cityName);
-void readPersonName(char* personName);
-int readCountChoice();
+void readCityName(char** cityName); // meminta input nama kota yang disimpan sebagai string literal
+
+void readPersonName(char** personName); // meminta input nama yang disimpan sebagai string literal
 
 // Output message functions
-void displayCityAddedMessage(char* cityName);
-void displayCityExistsMessage(char* cityName);
-void displayCityLimitMessage();
-void displayMemoryErrorMessage();
-void displayNameAddedMessage(char* personName, char* cityName);
-void displayCityNotFoundMessage(char* cityName);
-void displayCityDeletedMessage(char* cityName);
-void displayNameDeletedMessage(char* personName, char* cityName);
-void displayCityNameCountMessage(char* cityName, int count);
-void displayTotalNamesMessage(int cityCount, int totalNames);
+void displayCityAddedMessage(char* cityName); // Pesan ketika add kota berhasil
 
-// Fungsi tambahan untuk menunggu Enter
-void waitForEnter();
+void displayCityExistsMessage(char* cityName); // pesan ketika kota yang ingin di add sudah ada
+
+void displayMemoryErrorMessage(); // pesan ketika gagal alokasi memory
+
+void displayNameAddedMessage(char* personName, char* cityName); // Pesan ketika add nama berhasil
+
+void displayCityNotFoundMessage(char* cityName); // pesan ketika kota yang dicari tidak ditemukan
+
+void displayCityDeletedMessage(char* cityName); // pesan ketika delete kota berhasil
+
+void displayNameDeletedMessage(char* personName, char* cityName); // pesan ketika delete nama berhasil
+
+void displayCityNameCountMessage(char* cityName, int count); // Menampilkan jumlah nama suatu kota
+
+void displayTotalNamesMessage(int cityCount, int totalNames); // menampilkan jumlah nama seluruh kota
+
+void waitForEnter(); // menunggu enter sebelum clear screen
+
+// UI function
+ 
+void gotoxy(int x, int y); // mengatur posisi dari output di terminal (menggunakan handle dari windows.h)
+
+void drawbox(int x, int y); // membuat box untuk output prgram
 
 #endif /* UI_H */

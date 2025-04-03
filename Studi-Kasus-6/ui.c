@@ -1,122 +1,181 @@
-/*	File name 	: ui.c
-	Made by		: Muhammad Nabil Syauqi Rasyiq
-	Date		: 27 March 2025
+/*	
+	File name 	: ui.c
+	Made by		: Muhammad Nabil Syauqi Rasyiq and Claude AI
+	Date		: 3 April 2025
+	Description : Implementation of ui.h for city management system
 */
 
 #include "ui.h"
 
 // Main menu functions
 void displayMainMenu() {
-    printf("\n===== CITY AND NAME MANAGEMENT =====\n");
-    printf("1. Add a City\n");
-    printf("2. Add a Name to a City\n");
-    printf("3. Delete a City\n");
-    printf("4. Delete a Name from a City\n");
-    printf("5. Display All Data\n");
-    printf("6. Display Data for a Specific City\n");
-    printf("7. Count Names\n");
-    printf("8. Exit\n");
+    system("cls"); // Clear screen
+    drawbox(60, 5);
+    gotoxy(20, 2);
+    printf("CITY MANAGEMENT SYSTEM");
+    gotoxy(10, 5);
+    printf("1. Add a new city");
+    gotoxy(10, 6);
+    printf("2. Add a person to a city");
+    gotoxy(10, 7);
+    printf("3. Delete a city");
+    gotoxy(10, 8);
+    printf("4. Delete a person from a city");
+    gotoxy(10, 9);
+    printf("5. Display all data");
+    gotoxy(10, 10);
+    printf("6. Display city data");
+    gotoxy(10, 11);
+    printf("7. Count all names");
+    gotoxy(10, 12);
+    printf("8. Count names in a city");
+    gotoxy(10, 13);
+    printf("9. Exit");
+    gotoxy(10, 15);
     printf("Enter your choice: ");
 }
 
 int getMenuChoice() {
     int choice;
     scanf("%d", &choice);
-    getchar(); // Consume the newline
+    fflush(stdin); 
     return choice;
 }
 
 void displayExitMessage() {
-    printf("Exiting program...\n");
+    system("cls");
+    drawbox(50, 7);
+    gotoxy(10, 2);
+    printf("Thank you for using the program!");
+    gotoxy(15, 4);
+    printf("Have a nice day!");
+    gotoxy(0, 8);
 }
 
 void displayInvalidChoiceMessage() {
-    printf("Invalid choice. Please try again.\n");
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
+    gotoxy(10, 16);
+    printf("Invalid choice! Please try again.");
+    waitForEnter();
 }
 
-// Input functions
-void readCityName(char* cityName) {
-    printf("Enter city name: ");
-    fgets(cityName, MAX_CITY_LENGTH, stdin);
-    cityName[strcspn(cityName, "\n")] = 0; // Remove newline
+void readCityName(char **CityName) {
+    char temp[100];
+    
+    // Baca input dari pengguna
+    printf("Masukkan nama kota: ");
+    scanf(" %99[^\n]", temp); 
+    fflush(stdin); // Membersihkan temp input
+    
+    // Hitung panjang string
+    size_t len = strlen(temp);
+    
+    // Alokasi memori untuk nama dengan ukuran yang tepat
+    *CityName = (char *)malloc((len + 1) * sizeof(char));
+    if (*CityName == NULL) {
+        displayMemoryErrorMessage();
+        return;
+    }
+    
+    // Salin buffer ke pointer nama
+    strcpy(*CityName, temp);
 }
 
-void readPersonName(char* personName) {
-    printf("Enter person name: ");
-    fgets(personName, MAX_NAME_LENGTH, stdin);
-    personName[strcspn(personName, "\n")] = 0; // Remove newline
-}
-
-int readCountChoice() {
-    printf("1. Count names in a specific city\n");
-    printf("2. Count total names in all cities\n");
-    printf("Enter your choice: ");
-    int choice;
-    scanf("%d", &choice);
-    getchar(); // Consume the newline
-    return choice;
+// Fix buffer safety in readPersonName function
+void readPersonName(char** personName) {
+    char temp[100];
+    
+    // Baca input dari pengguna
+    printf("Masukkan Nama: ");
+    scanf(" %99[^\n]", temp); 
+    fflush(stdin); // Membersihkan temp input
+    
+    // Hitung panjang string
+    size_t len = strlen(temp);
+    
+    // Alokasi memori untuk nama dengan ukuran yang tepat
+    *personName = (char *)malloc((len + 1) * sizeof(char));
+    if (*personName == NULL) {
+        displayMemoryErrorMessage();
+        return;
+    }
+    
+    // Salin buffer ke pointer nama
+    strcpy(*personName, temp);
 }
 
 // Output message functions
 void displayCityAddedMessage(char* cityName) {
-    printf("City '%s' added successfully.\n", cityName);
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
+    printf("\nCity '%s' has been added successfully!\n", cityName);
 }
 
 void displayCityExistsMessage(char* cityName) {
-    printf("City '%s' already exists.\n", cityName);
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
-}
-
-void displayCityLimitMessage() {
-    printf("Cannot add more cities. Maximum limit reached.\n");
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
+    printf("\nCity '%s' already exists in the database!\n", cityName);
 }
 
 void displayMemoryErrorMessage() {
-    printf("Failed to add city due to memory allocation failure.\n");
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
+    printf("\nError: Memory allocation failed!\n");
 }
 
 void displayNameAddedMessage(char* personName, char* cityName) {
-    printf("Name '%s' added to city '%s'.\n", personName, cityName);
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
+    printf("\nPerson '%s' has been added to city '%s' successfully!\n", personName, cityName);
 }
 
 void displayCityNotFoundMessage(char* cityName) {
-    printf("City '%s' not found.\n", cityName);
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
+    printf("\nCity '%s' not found in the database!\n", cityName);
 }
 
 void displayCityDeletedMessage(char* cityName) {
-    printf("City '%s' and all its names deleted successfully.\n", cityName);
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
+    printf("\nCity '%s' has been deleted successfully!\n", cityName);
 }
 
 void displayNameDeletedMessage(char* personName, char* cityName) {
-    printf("Name '%s' deleted from city '%s'.\n", personName, cityName);
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
+    printf("\nPerson '%s' has been deleted from city '%s' successfully!\n", personName, cityName);
 }
 
 void displayCityNameCountMessage(char* cityName, int count) {
-    printf("City '%s' has %d names.\n", cityName, count);
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
+    printf("\nThe city '%s' has %d registered person(s).\n", cityName, count);
 }
 
 void displayTotalNamesMessage(int cityCount, int totalNames) {
-    printf("Total names across all %d cities: %d\n", cityCount, totalNames);
-    waitForEnter(); // Menunggu Enter sebelum kembali ke menu
+    printf("\nThere are %d cities with a total of %d registered person(s).\n", cityCount, totalNames);
 }
 
-// Implementasi fungsi waitForEnter
 void waitForEnter() {
-    printf("\nTekan Enter untuk melanjutkan...");
+    printf("\nPress Enter to continue...");
+    getch();
+}
+
+void gotoxy(int x, int y) {
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+void drawbox(int width, int height) {
+    int i, j;
     
-    int ch;
-    // Loop sampai tombol Enter (kode ASCII 13) ditekan
-    while ((ch = getch()) != 13);
+    // Draw top border
+    gotoxy(0, 0);
+    printf("%c", 201); // Top-left corner
+    for(i = 0; i < width - 2; i++) {
+        printf("%c", 205); // Horizontal line
+    }
+    printf("%c", 187); // Top-right corner
     
-    // Bersihkan layar setelah Enter ditekan (opsional)
-    system("cls");
+    // Draw sides
+    for(i = 1; i < height - 1; i++) {
+        gotoxy(0, i);
+        printf("%c", 186); // Vertical line
+        gotoxy(width - 1, i);
+        printf("%c", 186); // Vertical line
+    }
+    
+    // Draw bottom border
+    gotoxy(0, height - 1);
+    printf("%c", 200); // Bottom-left corner
+    for(i = 0; i < width - 2; i++) {
+        printf("%c", 205); // Horizontal line
+    }
+    printf("%c", 188); // Bottom-right corner
 }

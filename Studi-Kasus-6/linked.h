@@ -1,7 +1,8 @@
-/* File name   : linked.h
-   Made by      : Muhammad Nabil Syauqi Rasyiq
-   Date         : 30 March 2025
-   Description  : Header file for linked list implementation supporting both int and char* types
+/* 
+	File name    : linked.h
+ 	Made by      : Muhammad Nabil Syauqi Rasyiq
+   	Date         : 30 March 2025
+   	Description  : Header file for linked list implementation supporting both int and char* types
 */
 
 #ifndef LINKED_H
@@ -21,8 +22,8 @@ typedef char* string;
 typedef struct tElmtList *address;
 typedef struct tElmtList {
     union {
-        int intInfo;    // Renamed for clarity
-        string strInfo; // Renamed for clarity
+        int intInfo;   
+        string strInfo;
     };
     address next;      
 } ElmtList;
@@ -32,7 +33,6 @@ typedef struct {
     address First;
 } List;
 
-// Macros to access the correct union field based on List type
 #define Nil NULL
 #define First(L) ((L).First)
 #define next(P) ((P)->next)
@@ -68,7 +68,7 @@ address AlokasiInt(int X);
 // I.S : Program membutuhkan sebuah alamat node struct bertipe char* yang sudah memiliki nilai sesuai dengan kebutuhan 
 // F.S : mereturn alamat node struct bertipe char* yang sudah di malloc dan diatur nilainya sesuai dengan parameter
 // Catatan: Function ini melakukan deep copy dari string menggunakan strdup, jadi parameter string bisa dibebaskan
-address AlokasiCharS(string nama);
+address AlokasiCharS(char* nama);
 
 // I.S : alamat Node untuk tipe int sudah tidak terpakai dan belum di dealloc
 // F.S : alamat Node berhasil di dealloc
@@ -82,11 +82,6 @@ void DeAlokasiCharS(address P);
 // F.S : alamat Node berhasil di dealloc
 // Catatan: Fungsi ini tidak aman untuk string, gunakan DeAlokasiCharS untuk node string
 void DeAlokasi(address P);
-
-#define DeAlokasi(address P) _Generic((P), \
-    int*: DeAlokasiInt, \
-    char*: DeAlokasiCharS \
-)(P)
 
 /*=======================================================*/
 /*================= INSERTION FUNCTIONS =================*/
@@ -115,7 +110,7 @@ void InsertFVInt(address *P, int info);
 // IS : P mungkin Kosong
 // FS : melakukan alokasi sebuah elemen dan menambahkan elemen di posisi First dengan nilai info bertipe char* jika alokasi berhasil
 // Catatan: Function ini melakukan deep copy dari string parameter
-void InsertFVCharS(address *P, string info);
+void InsertFVCharS(address *P, char* info);
 
 #define InsertFirstV(a, b) _Generic((b), \
     int: InsertFVInt, \
@@ -129,7 +124,7 @@ void InsertLVInt(address *P, int info);
 // IS : P mungkin Kosong
 // FS : melakukan alokasi sebuah elemen dan menambahkan elemen di posisi Last dengan nilai info bertipe char* jika alokasi berhasil
 // Catatan: Function ini melakukan deep copy dari string parameter
-void InsertLVCharS(address *P, string info);
+void InsertLVCharS(address *P, char* info);
 
 #define InsertLastV(a, b) _Generic((b), \
     int: InsertLVInt, \
@@ -204,7 +199,7 @@ void DeleteByVInt(List *L, int info);
 // FS : mencari node dengan nilai info dan mendealokasikannya jika ada
 void DeleteByVCharS(List *L, string info);
 
-#define DeleteByV(a, b) _Generic((b), \
+#define DeleteByValue(a, b) _Generic((b), \
     int: DeleteByVInt, \
     char*: DeleteByVCharS \
 )(a, b)
@@ -248,7 +243,7 @@ address SearchByVInt(List L, int info);
 // FS : jika ada maka akan return address node tersebut, jika tidak ada maka akan return Nil
 address SearchByVCharS(List L, char* info);
 
-#define SearchByV(a, b) _Generic((b), \
+#define SearchByValue(a, b) _Generic((b), \
     int: SearchByVInt, \
     char*: SearchByVCharS \
 )(a, b)
